@@ -1,11 +1,14 @@
 import express from "express";
-import mongoose from "mongoose";
+import product from "./routes/Product-route"
+import category from "./routes/category-route"
 import { connectDB } from "./db";
 import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(express.cors());
+app.use(cors());
+app.use("/product",product);
+app.use("/category",category);
 
 const dbConnection = async () => {
     await connectDB();
