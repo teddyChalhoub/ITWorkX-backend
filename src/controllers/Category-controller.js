@@ -2,7 +2,9 @@ import categoryModel from "../models/Category-model";
 
 exports.getCategory = async (req, res, next) => {
   try {
-    const categories = await categoryModel.find();
+    const categories = await categoryModel
+      .find()
+      .populate({ path: "parent_category", select: ["name"] });
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
@@ -30,7 +32,6 @@ exports.addCategory = async (req, res, next) => {
 };
 
 exports.updateCategory = async (req, res, next) => {
-
   try {
     const category = await categoryModel.findById({ _id: req.params.id });
     if (!category) throw new Error("Category doesn't exists");
@@ -40,17 +41,19 @@ exports.updateCategory = async (req, res, next) => {
     const newCategories = categories.filter(
       (data) => data.name !== category.name
     );
-  
+
     newCategories.map((category) => {
-      if (category.name.toLowerCase() == req.query.name.toLowerCase()) {
-        console.log("entered");
-        throw new Error("Category already exists");
+      if (category.name !== "" && req.query.name !== "") {
+        if (category.name.toLowerCase() == req.query.name.toLowerCase()) {
+          throw new Error("Category already exists");
+        }
       }
     });
 
-    if (req.query.name) {
-      category.name = req.query.name;
-    }
+    if (req.query.name) category.name = req.query.name;
+
+    if (req.query.parent_category)
+      category.parent_category = req.query.parent_category;
 
     const data = await category.save();
     res.json({ success: true, data: data });
