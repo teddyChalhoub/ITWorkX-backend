@@ -7,6 +7,8 @@ let products = new mongoose.Schema({
     description: { type: String },
     numberOfAvailability: { type: Number },
     isAvailable: { type: Boolean, default: true },
+    newItem: {type:Boolean,default:true},
+    discount:{type:String},
     images: [{
         type:  mongoose.Schema.Types.ObjectId,
         ref: "Images"

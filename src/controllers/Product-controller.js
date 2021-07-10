@@ -2,7 +2,7 @@ import productSchema from "../models/Products-model";
 
 exports.getProducts = async (req, res, next) => {
   try {
-    const products = await productSchema.find();
+    const products = await productSchema.find().populate("images");
 
     if (products.length === 0) throw Error("No products has been found");
 
@@ -21,6 +21,9 @@ exports.addProducts = async (req, res, next) => {
       description: req.query.description,
       numberOfAvailability: req.query.numberOfAvailability,
       isAvailable: req.query.isAvailable,
+      newItem: req.query.newItem,
+      discount: req.query.discount,
+      images: req.query.image_id,
     });
 
     const newProduct = await product.save();
@@ -31,7 +34,7 @@ exports.addProducts = async (req, res, next) => {
   }
 };
 
-exports.updateProducts = async (req, res, next) => {
+exports.updateProductsById = async (req, res, next) => {
   try {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) throw Error("Product doesn't exists");
@@ -74,7 +77,7 @@ exports.updateProducts = async (req, res, next) => {
   }
 };
 
-exports.deleteProducts = async (req, res, next) => { 
+exports.deleteProductsById = async (req, res, next) => {
   try {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) {
@@ -88,7 +91,7 @@ exports.deleteProducts = async (req, res, next) => {
     res.json({ success: true, message: "Product deleted successfully" });
   } catch (err) {
     handleError(err, res);
-  } 
+  }
 };
 
 const handleError = (error, res) => {
