@@ -1,9 +1,12 @@
 import productSchema from "../models/Products-model";
+import categoryModel from "../models/Category-model";
 
 exports.getProducts = async (req, res, next) => {
   try {
-    const products = await productSchema.find().populate("images");
-
+    const products = await productSchema
+      .find()
+      .populate("images")
+      .populate({ path: "category", select: ["name"] });
     if (products.length === 0) throw Error("No products has been found");
 
     res.json({ success: true, data: products });
@@ -23,10 +26,17 @@ exports.addProducts = async (req, res, next) => {
       isAvailable: req.query.isAvailable,
       newItem: req.query.newItem,
       discount: req.query.discount,
-      images: req.query.image_id,
+      category: req.query.category_id,
     });
 
     const newProduct = await product.save();
+
+    const category = await categoryModel.findById({
+      _id: req.query.category_id,
+    });
+
+    category.product.push(newProduct._id);
+    await category.save();
 
     res.json({ success: true, message: "Product saved successfully " });
   } catch (err) {
@@ -39,36 +49,57 @@ exports.updateProductsById = async (req, res, next) => {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) throw Error("Product doesn't exists");
 
-    if (req.query.title != undefined && products.title != req.query.title)
+    if (req.query.title != "" && products.title != req.query.title)
       products.title = req.query.title;
 
-    if (
-      req.query.subTitle != undefined &&
-      products.subTitle != req.query.subTitle
-    )
+    if (req.query.subTitle != "" && products.subTitle != req.query.subTitle)
       products.subTitle = req.query.subTitle;
 
-    if (req.query.price != undefined && products.price != req.query.price)
+    if (req.query.price != "" && products.price != req.query.price)
       products.price = req.query.price;
 
     if (
-      req.query.description != undefined &&
+      req.query.description != "" &&
       products.description != req.query.description
     )
       products.description = req.query.description;
 
     if (
-      req.query.numberOfAvailability != undefined &&
+      req.query.numberOfAvailability != "" &&
       products.numberOfAvailability != req.query.numberOfAvailability
     )
       products.numberOfAvailability = req.query.numberOfAvailability;
 
     if (
-      req.query.isAvailable != undefined &&
+      req.query.isAvailable != "" &&
       products.isAvailable != req.query.isAvailable
     )
       products.isAvailable = req.query.isAvailable;
 
+    if (req.query.newItem !== "" && req.query.newItem !== products.newItem)
+      products.newItem = req.query.newItem;
+
+    if (req.query.discount !== "" && req.query.discount !== products.discount)
+      products.discount = req.query.discount;
+
+    if (
+      req.query.category_id !== "" &&
+      req.query.category_id !== products.category
+    ) {
+      products.category = req.query.category_id;
+      const category = await categoryModel.findById({
+        _id: req.query.category_id,
+      });
+      console.log(category);
+      console.log(products._id);
+
+      const array = [products._id];
+
+      category.product.push({
+        $each:array,
+        $position: 0
+      });
+    }
     const data = await products.save();
 
     res.json({ success: true, message: "Product updated successfully" });
@@ -82,6 +113,13 @@ exports.deleteProductsById = async (req, res, next) => {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) {
       throw new Error("Product doesn't exists");
+    }
+
+    if (products.category_id !== undefined) {
+      const category = await categoryModel.findById({
+        _id: products.category_id,
+      });
+      if (category) category.product.pull(products._id);
     }
 
     const deleted = await productSchema.deleteOne({ _id: products._id });

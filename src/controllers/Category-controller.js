@@ -1,10 +1,12 @@
 import categoryModel from "../models/Category-model";
+import productModel from "../models/Products-model";
 
 exports.getCategory = async (req, res, next) => {
   try {
     const categories = await categoryModel
       .find()
-      .populate({ path: "parent_category", select: ["name"] });
+      .populate({ path: "parent_category", select: ["name"] })
+      .populate("product");
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
@@ -55,6 +57,9 @@ exports.updateCategory = async (req, res, next) => {
     if (req.query.parent_category)
       category.parent_category = req.query.parent_category;
 
+      if (req.query.product_id)
+      category.parent_category = req.query.parent_category;
+
     const data = await category.save();
     res.json({ success: true, data: data });
   } catch (err) {
@@ -67,6 +72,16 @@ exports.deleteCategory = async (req, res, next) => {
     const category = await categoryModel.findById({ _id: req.params.id });
     if (!category) {
       throw new Error("Category doesn't exists");
+    }
+
+    const products = await productModel.find();
+
+    if (products.length > 0) {
+      products.map((data) => {
+        if (data.category._id === category._id) {
+          products.category.pull(category._id);
+        }
+      });
     }
 
     const deleted = await categoryModel.deleteOne({ _id: category._id });
