@@ -93,12 +93,11 @@ exports.updateProductsById = async (req, res, next) => {
       console.log(category);
       console.log(products._id);
 
-      const array = [products._id];
+      // const array = [products._id];
 
-      category.product.push({
-        $each:array,
-        $position: 0
-      });
+      category.product.push(products._id);
+
+      await category.save()
     }
     const data = await products.save();
 
