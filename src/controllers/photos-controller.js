@@ -32,11 +32,10 @@ exports.addPhotos = async (req, res, next) => {
       const data = await photoModel.insertMany(photos);
       if (data.length === 0) throw new Error("Photos hasn't been saved");
 
-      const product = await productSchema.findById({
-        _id: req.query.product_id,
-      });
-
       if (req.query.product_id) {
+        const product = await productSchema.findById({
+          _id: req.query.product_id,
+        });
         const push = [];
 
         data.map((image) => {
