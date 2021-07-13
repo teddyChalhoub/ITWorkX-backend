@@ -30,13 +30,14 @@ exports.addProducts = async (req, res, next) => {
     });
 
     const newProduct = await product.save();
+    if (req.query.category_id) {
+      const category = await categoryModel.findById({
+        _id: req.query.category_id,
+      });
 
-    const category = await categoryModel.findById({
-      _id: req.query.category_id,
-    });
-
-    category.product.push(newProduct._id);
-    await category.save();
+      category.product.push(newProduct._id);
+      await category.save();
+    }
 
     res.json({ success: true, message: "Product saved successfully " });
   } catch (err) {
@@ -93,7 +94,7 @@ exports.updateProductsById = async (req, res, next) => {
 
       category.product.push(products._id);
 
-      await category.save()
+      await category.save();
     }
     const data = await products.save();
 
@@ -110,7 +111,7 @@ exports.deleteProductsById = async (req, res, next) => {
       throw new Error("Product doesn't exists");
     }
 
-    if (products.category_id !== undefined) {
+    if (products.category_id) {
       const category = await categoryModel.findById({
         _id: products.category_id,
       });
