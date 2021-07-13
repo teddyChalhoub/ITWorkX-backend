@@ -10,12 +10,12 @@ let products = new mongoose.Schema(
     isAvailable: { type: Boolean, default: true },
     newItem: { type: Boolean, default: true },
     discount: { type: String },
-    // images: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "photo",
-    //   },
-    // ],
+    images: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "photo",
+      },
+    ],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
