@@ -90,10 +90,6 @@ exports.updateProductsById = async (req, res, next) => {
       const category = await categoryModel.findById({
         _id: req.query.category_id,
       });
-      console.log(category);
-      console.log(products._id);
-
-      // const array = [products._id];
 
       category.product.push(products._id);
 
