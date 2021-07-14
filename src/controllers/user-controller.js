@@ -1,50 +1,49 @@
-import userSchema from '../models/User-model';
-import bcrypt from 'bcryptjs';
-import { response } from 'express';
+import userSchema from "../models/User-model";
+import bcrypt from "bcryptjs";
+import { response } from "express";
 // import jwt from 'jsonwebtoken'
 
-export const register = (req, res, next) => {
-    /*let oldUser = userSchema.find({name:req.body.name},(error, data) =>{
-        
-        return res.json ({success:false, message: "User already exists" });
-    });
-*/
+export const register = async (req, res, next) => {
+  try {
 
-    bcrypt.hash(req.body.password.toString(),10,function(err, hashedPass) {
-        if (err) {
-            res.json({
-                error: err.message
-            });
-        } 
-            let user = new userSchema ({
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPass,
-            company: req.body.company,
-            nbofemployee : req.body.nbofemployee,
-            country : req.body.country,
-            address : req.body.address,
-            notes : req.body.notes,
-        });  
-            user.save()
-            .then(user => { 
-                res.json({
-                    success: true,
-                    message : 'User added Successfully!',
-                });
-            })
-            .catch(error => {
-                res.json({
-                    success: false,
-                    message: 'User already exists'
-                });
-            });
+    const salt = await bcrypt.genSalt(10);
+    const hashPass = await bcrypt.hash(req.body.password, salt);
+
+
+
+    const user = new userSchema({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashPass,
+      company: req.body.company,
+      nbofemployee: req.body.nbofemployee,
+      country: req.body.country,
+      address: req.body.address,
+      notes: req.body.notes,
     });
+
+    const userInfo = await userSchema.find({ email: req.body.email });
+    console.log(userInfo);
+    if (userInfo.length > 0) throw new Error("User already exists");
+
+    await user.save();
+  
+    res.json({success:true,message:"User added succefully!" , data: userss})
+
+
+    res.json();
+  } catch (err) {
+    handleError(err,res);
+  }
 };
 
-export const getUser = (req, res) => { 
-    res.json("Get user");
+const handleError = (err , response)=>{
+    response.json({success:false,message:err.message})
+}
+
+export const getUser = (req, res) => {
+  res.json("Get user");
 };
-export const addUser = (req, res) => { 
-    res.json("Add user");
+export const addUser = (req, res) => {
+  res.json("Add user");
 };
