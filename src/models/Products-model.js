@@ -21,6 +21,10 @@ let products = new mongoose.Schema(
       ref: "category",
       
     },
+    orderItem:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "orderItem",
+    }
   },
   { timestamps: true }
 );
