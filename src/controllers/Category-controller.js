@@ -23,7 +23,7 @@ exports.addCategory = async (req, res, next) => {
 
     const newCategory = new categoryModel({
       name: req.query.name,
-      parent_category: req.query.id,
+      parent_category: req.query.category_id,
     });
 
     const data = await newCategory.save();
