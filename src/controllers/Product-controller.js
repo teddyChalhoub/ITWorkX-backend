@@ -29,6 +29,9 @@ exports.addProducts = async (req, res, next) => {
       category: req.query.category_id,
     });
 
+    if (!req.query.isAvailable) product.isAvailable = true;
+    if (!req.query.newItem) product.newItem = true;
+
     const newProduct = await product.save();
     if (req.query.category_id) {
       const category = await categoryModel.findById({

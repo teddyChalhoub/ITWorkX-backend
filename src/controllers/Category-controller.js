@@ -6,7 +6,7 @@ exports.getCategory = async (req, res, next) => {
     const categories = await categoryModel
       .find()
       .populate({ path: "parent_category", select: ["name"] })
-      .populate("product");
+      .populate({path:"product",populate:{path:"images"}});
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
@@ -23,7 +23,7 @@ exports.addCategory = async (req, res, next) => {
 
     const newCategory = new categoryModel({
       name: req.query.name,
-      parent_category: req.query.id,
+      parent_category: req.query.category_id,
     });
 
     const data = await newCategory.save();
