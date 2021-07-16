@@ -11,6 +11,10 @@ const userSchema = new schema(
     country: { type: String, required: true },
     address: { type: String, required: true },
     notes: { type: String, required: false },
+    user_role: [{
+      type : mongoose.Schema.Types.ObjectId,
+      ref : "user-role",
+    }]
   },
   { timestamps: true }
 );

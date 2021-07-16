@@ -14,3 +14,14 @@
 12) create user routes 
 13) create user controller 
 14) note : models connect to controller and controller connectd to route.
+{
+    "name" : "hussein",
+    "email": "hsein@gmail.com",
+    "password": "1243",
+    "company" : "",
+    "nbofemployee": "" ,
+    "country" : "lebanon",
+    "address": "beirut",
+    "note": ""
+
+ }
