@@ -2,6 +2,8 @@ import express from "express";
 import product from "./routes/Product-route";
 import category from "./routes/category-route";
 import photo from "./routes/photos-route"
+import order from "./routes/order-route"
+import orderItem from "./routes/orderItems-route"
 import { connectDB } from "./db";
 import cors from "cors";
 
@@ -12,6 +14,9 @@ app.use(express.static('public'));
 app.use("/product", product);
 app.use("/category", category);
 app.use("/photo", photo);
+app.use("/order", order);
+app.use("/orderItem", orderItem);
+
 
 const dbConnection = async () => {
   await connectDB();
