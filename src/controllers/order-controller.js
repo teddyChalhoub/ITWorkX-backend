@@ -16,3 +16,9 @@ exports.updateOrder = (req,res,next)=>{
 exports.deleteOrder = (req,res,next)=>{
 
 }
+
+
+const handleError = (error, res) => {
+    res.json({ success: false, message: error.message });
+  };
+  
