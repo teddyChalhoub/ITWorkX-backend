@@ -19,12 +19,13 @@ let products = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
-      
     },
-    orderItem:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "orderItem",
-    }
+    orderItem: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "orderItem",
+      },
+    ],
   },
   { timestamps: true }
 );

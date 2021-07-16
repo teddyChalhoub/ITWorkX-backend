@@ -6,12 +6,11 @@ const orderItem = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "product",
-      },
-    ],
+    products: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "product",
+    },
+
     quantity: { type: Number },
     totalPrice: { type: Number },
   },
