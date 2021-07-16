@@ -15,8 +15,21 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
-exports.addProducts = async (req, res, next) => {
+exports.getProductsById = async (req, res, next) => {
   try {
+    const product = await productSchema
+      .findById({_id: req.params.id})
+      .populate("images")
+    if (product.length === 0) throw Error("No product has been found");
+
+    res.json({ success: true, data: product });
+  } catch (err) {
+    handleError(err, res);
+  }
+};
+
+exports.addProducts = async (req, res, next) => {
+  try { 
     let product = new productSchema({
       title: req.query.title,
       subTitle: req.query.subTitle,
