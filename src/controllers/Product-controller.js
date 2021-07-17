@@ -1,5 +1,7 @@
 import productSchema from "../models/Products-model";
 import categoryModel from "../models/Category-model";
+import photoModel from "../models/photos-model";
+import fs from "fs/promises";
 
 exports.getProducts = async (req, res, next) => {
   try {
@@ -18,8 +20,8 @@ exports.getProducts = async (req, res, next) => {
 exports.getProductsById = async (req, res, next) => {
   try {
     const product = await productSchema
-      .findById({_id: req.params.id})
-      .populate("images")
+      .findById({ _id: req.params.id })
+      .populate("images");
     if (product.length === 0) throw Error("No product has been found");
 
     res.json({ success: true, data: product });
@@ -29,7 +31,7 @@ exports.getProductsById = async (req, res, next) => {
 };
 
 exports.addProducts = async (req, res, next) => {
-  try { 
+  try {
     let product = new productSchema({
       title: req.query.title,
       subTitle: req.query.subTitle,
@@ -132,6 +134,19 @@ exports.deleteProductsById = async (req, res, next) => {
         _id: products.category_id,
       });
       if (category) category.product.pull(products._id);
+    }
+
+    if (products.images.length !== 0) {
+      products.images.map(async (image) => {
+
+        const photo = await photoModel.findById({
+          _id: image,
+        });
+
+        await fs.unlink(`public${photo.url}`);
+
+        await photoModel.deleteOne({ _id: photo._id });
+      });
     }
 
     const deleted = await productSchema.deleteOne({ _id: products._id });

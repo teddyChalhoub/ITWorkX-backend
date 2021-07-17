@@ -67,10 +67,12 @@ exports.deletePhotoById = async (req, res, next) => {
     await fs.unlink(`public${photo.url}`);
 
     const product = await productSchema.findById({ _id: photo.product });
+    
+    if (product) {
+      product.images.pull(photo._id);
 
-    product.images.pull(photo._id);
-
-    await product.save();
+      await product.save();
+    }
 
     const deleted = await photoModel.deleteOne({ _id: photo._id });
     if (!deleted.ok) throw new Error("Photo hasn't been deleted");

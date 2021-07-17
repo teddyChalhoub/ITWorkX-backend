@@ -1,6 +1,6 @@
 import orderModel from "../models/order-model";
 
-exports.getAllOrders = (req, res, next) => {
+exports.getAllOrders = async (req, res, next) => {
   try {
     const orders = await orderModel
       .find()
@@ -18,7 +18,7 @@ exports.getAllOrders = (req, res, next) => {
   }
 };
 
-exports.addOrder = (req, res, next) => {
+exports.addOrder = async (req, res, next) => {
   try {
     const order = new orderModel({
       user: req.body.user_id,
