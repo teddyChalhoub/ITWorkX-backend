@@ -1,4 +1,5 @@
 import orderItemsModel from "../models/orderItems-model";
+import orderModel from "../models/order-model";
 
 exports.getAllOrderItems = async (req, res, next) => {
   try {
@@ -27,8 +28,15 @@ exports.addOrderItem = async (req, res, next) => {
       quantity: req.body.quantity,
       totalPrice: req.body.totalPrice,
     });
+    const order = await orderModel.findOne({ user: req.body.user_id });
 
+    orderItem.order = order._id;
     const data = await orderItem.save();
+
+    order.orderItem.push(data._id);
+
+    await order.save();
+
     res.json({
       success: true,
       message: "Successfully saved order",
@@ -79,6 +87,10 @@ exports.deleteOrderItem = async (req, res, next) => {
       _id: req.body.orderItem_id,
     });
     if (!orderItem) throw new Error("No order Items has been found ");
+
+    const order = await orderModel.findById({ _id: orderItem.order });
+
+    if (order) order.orderItem.pull(orderItem._id);
 
     const deleted = await orderItemsModel.deleteOne({ _id: orderItem._id });
     if (!deleted.ok)
