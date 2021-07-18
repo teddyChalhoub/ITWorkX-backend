@@ -1,11 +1,10 @@
 import express from "express";
 import photoController from "../controllers/photos-controller";
 import multer from "multer";
+import path from "path";
 
 const imageStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images");
-  },
+  destination: path.join(__dirname,"../../public/images"),
 
   filename: (req, file, cb) => {
     cb(

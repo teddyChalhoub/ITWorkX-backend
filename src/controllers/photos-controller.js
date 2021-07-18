@@ -22,17 +22,30 @@ exports.addPhotos = async (req, res, next) => {
     if (req.files) {
       const photos = [];
       req.files.map((photo) => {
-        photos.push({
-          name: photo.originalname.replace(/\.(png|jpg|jpeg|gif)$/, ""),
-          url: photo.path.replace(/public/, ""),
-          product: req.query.product_id,
-        });
+        if (req.query.product_id) {
+          photos.push({
+            name: photo.originalname.replace(/\.(png|jpg|jpeg|gif)$/, ""),
+            url: photo.path.replace(
+              /home\/teddy\/Documents\/Projects\/cloned\/ITWorkX-backend\/public\//,
+              ""
+            ),
+            product: req.query.product_id,
+          });
+        } else {
+          photos.push({
+            name: photo.originalname.replace(/\.(png|jpg|jpeg|gif)$/, ""),
+            url: photo.path.replace(
+              /home\/teddy\/Documents\/Projects\/cloned\/ITWorkX-backend\/public\//,
+              ""
+            ),
+          });
+        }
       });
 
       const data = await photoModel.insertMany(photos);
       if (data.length === 0) throw new Error("Photos hasn't been saved");
 
-      if (req.query.product_id) {
+      if (req.query.product_id !== "" && req.query.product_id !== undefined) {
         const product = await productSchema.findById({
           _id: req.query.product_id,
         });
@@ -66,14 +79,15 @@ exports.deletePhotoById = async (req, res, next) => {
 
     await fs.unlink(`public${photo.url}`);
 
-    const product = await productSchema.findById({ _id: photo.product });
-    
-    if (product) {
-      product.images.pull(photo._id);
+    if (photo.product !== undefined) {
+      const product = await productSchema.findById({ _id: photo.product });
 
-      await product.save();
+      if (product) {
+        product.images.pull(photo._id);
+
+        await product.save();
+      }
     }
-
     const deleted = await photoModel.deleteOne({ _id: photo._id });
     if (!deleted.ok) throw new Error("Photo hasn't been deleted");
 
