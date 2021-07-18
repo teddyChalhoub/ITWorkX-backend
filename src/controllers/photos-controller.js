@@ -63,6 +63,7 @@ exports.addPhotos = async (req, res, next) => {
       res.json({
         success: true,
         message: "Photos has been successfully saved",
+        photo: data,
       });
     } else {
       throw new Error("No photo's has been detected");
@@ -91,7 +92,11 @@ exports.deletePhotoById = async (req, res, next) => {
     const deleted = await photoModel.deleteOne({ _id: photo._id });
     if (!deleted.ok) throw new Error("Photo hasn't been deleted");
 
-    res.json({ success: true, message: "Photo has been successfully deleted" });
+    res.json({
+      success: true,
+      message: "Photo has been successfully deleted",
+      photo_id: deleted._id,
+    });
   } catch (err) {
     handleError(err, res);
   }

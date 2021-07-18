@@ -6,7 +6,7 @@ exports.getCategory = async (req, res, next) => {
     const categories = await categoryModel
       .find()
       .populate({ path: "parent_category", select: ["name"] })
-      .populate({path:"product",populate:{path:"images"}});
+      .populate({ path: "product", populate: { path: "images" } });
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
@@ -27,7 +27,11 @@ exports.addCategory = async (req, res, next) => {
     });
 
     const data = await newCategory.save();
-    res.json({ success: true, data: data });
+    res.json({
+      success: true,
+      message: "category saved successfully",
+      category_id: data._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
@@ -61,7 +65,11 @@ exports.updateCategory = async (req, res, next) => {
       category.parent_category = req.query.parent_category;
 
     const data = await category.save();
-    res.json({ success: true, data: data });
+    res.json({
+      success: true,
+      message: "Category updated successfully",
+      category_id: data._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
@@ -77,7 +85,6 @@ exports.deleteCategory = async (req, res, next) => {
     const products = await productModel.find();
     if (products.length > 0) {
       products.map((data) => {
-
         if (data.category_id === category._id) {
           products.category.pull(category._id);
         }
@@ -88,7 +95,11 @@ exports.deleteCategory = async (req, res, next) => {
     if (!deleted.ok)
       throw new Error("Failed process: category couldn't be deleted");
 
-    res.json({ success: true, message: "Category deleted successfully" });
+    res.json({
+      success: true,
+      message: "Category deleted successfully",
+      category_id: deleted._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
