@@ -1,5 +1,7 @@
 import productSchema from "../models/Products-model";
 import categoryModel from "../models/Category-model";
+import photoModel from "../models/photos-model";
+import fs from "fs/promises";
 
 exports.getProducts = async (req, res, next) => {
   try {
@@ -9,7 +11,28 @@ exports.getProducts = async (req, res, next) => {
       .populate({ path: "category", select: ["name"] });
     if (products.length === 0) throw Error("No products has been found");
 
-    res.json({ success: true, data: products });
+    res.json({
+      success: true,
+      message: "products retrieved successfully",
+      data: products,
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
+};
+
+exports.getProductsByTitle = async (req, res, next) => {
+  try {
+    const product = await productSchema
+      .findOne({ title: req.params.title })
+      .populate("images");
+    if (product.length === 0) throw Error("No product has been found");
+
+    res.json({
+      success: true,
+      message: "product retrieved successfully",
+      data: product,
+    });
   } catch (err) {
     handleError(err, res);
   }
@@ -42,7 +65,11 @@ exports.addProducts = async (req, res, next) => {
       await category.save();
     }
 
-    res.json({ success: true, message: "Product saved successfully " });
+    res.json({
+      success: true,
+      message: "Product saved successfully ",
+      product_id: newProduct._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
@@ -101,7 +128,11 @@ exports.updateProductsById = async (req, res, next) => {
     }
     const data = await products.save();
 
-    res.json({ success: true, message: "Product updated successfully" });
+    res.json({
+      success: true,
+      message: "Product updated successfully",
+      product_id: data._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
@@ -114,18 +145,35 @@ exports.deleteProductsById = async (req, res, next) => {
       throw new Error("Product doesn't exists");
     }
 
-    if (products.category_id) {
+    if (products.category) {
       const category = await categoryModel.findById({
-        _id: products.category_id,
+        _id: products.category._id,
       });
       if (category) category.product.pull(products._id);
+      await category.save();  
+    }
+
+    if (products.images.length > 0) {
+      products.images.map(async (image) => {
+        const photo = await photoModel.findById({
+          _id: image,
+        });
+
+        await fs.unlink(`public${photo.url}`);
+
+        await photoModel.deleteOne({ _id: photo._id });
+      });
     }
 
     const deleted = await productSchema.deleteOne({ _id: products._id });
     if (!deleted.ok)
       throw new Error("Failed process: product couldn't be deleted");
 
-    res.json({ success: true, message: "Product deleted successfully" });
+    res.json({
+      success: true,
+      message: "Product deleted successfully",
+      product_id: deleted._id,
+    });
   } catch (err) {
     handleError(err, res);
   }

@@ -2,10 +2,13 @@ import express from "express";
 import product from "./routes/Product-route";
 import category from "./routes/category-route";
 import photo from "./routes/photos-route";
+import userRoute from "./routes/user-routes";
+import order from "./routes/order-route";
+import orderItem from "./routes/orderItems-route";
 import { connectDB } from "./db";
 import cors from "cors";
-import userRoute from "./routes/user-routes";
 import {isAdmin, tokenizer} from "./controllers/user-controller";
+import path from "path";
 
 const app = express();
 
@@ -15,6 +18,11 @@ app.use("/product", product);
 app.use("/category", category);
 app.use("/photo", photo);
 app.use("/user",userRoute);
+app.use(express.static(path.join(__dirname, "../public")));
+app.use("/order", order);
+app.use("/orderItem", orderItem);
+
+
 
 const dbConnection = async () => {
     await connectDB();
