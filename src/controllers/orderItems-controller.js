@@ -1,5 +1,6 @@
 import orderItemsModel from "../models/orderItems-model";
 import orderModel from "../models/order-model";
+import userModel from "../models/User-model";
 
 exports.getAllOrderItems = async (req, res, next) => {
   try {
@@ -20,7 +21,9 @@ exports.getAllOrderItems = async (req, res, next) => {
   }
 };
 
+
 exports.addOrderItem = async (req, res, next) => {
+  console.log(req.user._id);
   try {
     const orderItem = new orderItemsModel({
       products: req.query.product_id,
@@ -82,7 +85,6 @@ exports.updateOrderItem = async (req, res, next) => {
 };
 
 exports.deleteOrderItem = async (req, res, next) => {
-  
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,

@@ -19,6 +19,31 @@ exports.getAllOrders = async (req, res, next) => {
   }
 };
 
+exports.getAllOrdersByUser = async (req, res, next) => {
+  try {
+    const order = await orderModel
+      .findOne({ user: req.user._id })
+      .populate({
+        path: "user",
+        populate: { path: "user_role", populate: { path: "role_id" } },
+      })
+      .populate({
+        path: "orderItem",
+        populate: { path: "products", select: ["title", "price", "images"] },
+      });
+
+    if (!order) throw new Error("No order has been found ");
+
+    res.json({
+      success: true,
+      message: "Successfully retrieved user order",
+      data: order,
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
+};
+
 exports.addOrder = async (req, res, next) => {
   try {
     const order = new orderModel({
