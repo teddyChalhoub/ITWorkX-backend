@@ -61,8 +61,7 @@ exports.updateCategory = async (req, res, next) => {
     if (req.query.parent_category)
       category.parent_category = req.query.parent_category;
 
-    if (req.query.product_id)
-      category.parent_category = req.query.parent_category;
+    if (req.query.product_id) category.product.push(req.query.product_id);
 
     const data = await category.save();
     res.json({
@@ -83,17 +82,21 @@ exports.deleteCategory = async (req, res, next) => {
     }
 
     const products = await productModel.find();
+
     if (products.length > 0) {
-      products.map((data) => {
-        if (data.category_id === category._id) {
-          products.category.pull(category._id);
+      products.map(async (data) => {
+
+        if (data.category.equals(category._id)) {
+
+          data.category = undefined;
         }
+        await data.save();
       });
     }
 
     const deleted = await categoryModel.deleteOne({ _id: category._id });
     if (!deleted.ok)
-      throw new Error("Failed process: category couldn't be deleted");
+      throw new Error("Failed process: category couldn't be deleted"); 
 
     res.json({
       success: true,

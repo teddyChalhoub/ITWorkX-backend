@@ -21,10 +21,10 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
-exports.getProductsById = async (req, res, next) => {
+exports.getProductsByTitle = async (req, res, next) => {
   try {
     const product = await productSchema
-      .findById({ _id: req.params.id })
+      .findOne({ title: req.params.title })
       .populate("images");
     if (product.length === 0) throw Error("No product has been found");
 
@@ -145,11 +145,12 @@ exports.deleteProductsById = async (req, res, next) => {
       throw new Error("Product doesn't exists");
     }
 
-    if (products.category_id) {
+    if (products.category) {
       const category = await categoryModel.findById({
-        _id: products.category_id,
+        _id: products.category._id,
       });
       if (category) category.product.pull(products._id);
+      await category.save();  
     }
 
     if (products.images.length > 0) {
