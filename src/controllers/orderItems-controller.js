@@ -21,7 +21,6 @@ exports.getAllOrderItems = async (req, res, next) => {
   }
 };
 
-
 exports.addOrderItem = async (req, res, next) => {
   console.log(req.user._id);
   try {
@@ -33,7 +32,6 @@ exports.addOrderItem = async (req, res, next) => {
     const order = await orderModel.findOne({ user: req.user._id });
 
     orderItem.order = order._id;
-    orderItem.order = req.query.order_id;
     const data = await orderItem.save();
 
     order.orderItem.push(data._id);
@@ -51,9 +49,10 @@ exports.addOrderItem = async (req, res, next) => {
 };
 
 exports.updateOrderItem = async (req, res, next) => {
+  console.log(req.params.id);
   try {
     const orderItem = await orderItemsModel.findById({
-      _id: req.query.orderItem_id,
+      _id: req.params.id,
     });
 
     if (!orderItem) throw new Error("No order Items has been found ");
@@ -91,9 +90,12 @@ exports.deleteOrderItem = async (req, res, next) => {
     });
     if (!orderItem) throw new Error("No order Items has been found ");
 
-    const order = await orderModel.findById({ _id: orderItem.order });
+    if (orderItem.order) {
+      const order = await orderModel.findById({ _id: orderItem.order });
 
-    if (order) order.orderItem.pull(orderItem._id);
+      if (order) order.orderItem.pull(orderItem._id);
+      await order.save();
+    }
 
     const deleted = await orderItemsModel.deleteOne({ _id: orderItem._id });
     if (!deleted.ok)
