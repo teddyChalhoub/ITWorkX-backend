@@ -14,7 +14,7 @@ exports.getProducts = async (req, res, next) => {
     res.json({
       success: true,
       message: "products retrieved successfully",
-      products: products,
+      data: products,
     });
   } catch (err) {
     handleError(err, res);
@@ -31,7 +31,7 @@ exports.getProductsByTitle = async (req, res, next) => {
     res.json({
       success: true,
       message: "product retrieved successfully",
-      product: product,
+      data: product,
     });
   } catch (err) {
     handleError(err, res);

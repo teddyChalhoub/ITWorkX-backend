@@ -12,7 +12,7 @@ exports.getAllOrders = async (req, res, next) => {
     res.json({
       success: true,
       message: "Successfully retrieved orders",
-      order: orders,
+      data: orders,
     });
   } catch (err) {
     handleError(err, res);
