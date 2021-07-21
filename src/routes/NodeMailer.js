@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 
 router.post("/send_mail", async (req, res) => {
   try {
-    let { text } = req.body;
+    let { name, mobile, email, topic, message } = req.body;
     console.log(req.body);
     const smtpConfig = {
       host: process.env.MAIL_HOST,
@@ -32,9 +32,16 @@ router.post("/send_mail", async (req, res) => {
         line-height: 2;
         font-size: 20px; 
         ">
-        <h2>Here is your email!</h2>
-        <p>${text}</p>
-    
+        <h2>name:</h2>
+        <p>${name}</p>
+        <h2>email:</h2>
+        <p>${email}</p>
+        <h2>topic:</h2>
+        <p>${topic}</p>
+        <h2>mobile:</h2>
+        <p>${mobile}</p>
+        <h2>Message:</h2>
+        <p>${message}</p>
         <p>All the best, Bachir4</p>
          </div>
     `,
