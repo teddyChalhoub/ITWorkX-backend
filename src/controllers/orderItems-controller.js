@@ -25,9 +25,9 @@ exports.addOrderItem = async (req, res, next) => {
 
   try {
     const orderItem = new orderItemsModel({
-      products: req.query.product_id,
-      quantity: req.query.quantity,
-      totalPrice: req.query.totalPrice,
+      products: req.body.product_id,
+      quantity: req.body.quantity,
+      totalPrice: req.body.totalPrice,
     });
     const order = await orderModel.findOne({ user: req.user._id });
 
@@ -63,17 +63,17 @@ exports.updateOrderItem = async (req, res, next) => {
     if (!orderItem) throw new Error("No order Items has been found ");
 
     if (
-      orderItem.quantity !== req.query.orderItem_quantity &&
-      req.query.orderItem_quantity !== ""
+      orderItem.quantity !== req.body.orderItem_quantity &&
+      req.body.orderItem_quantity !== ""
     ) {
-      orderItem.quantity = req.query.orderItem_quantity;
+      orderItem.quantity = req.body.orderItem_quantity;
     }
 
     if (
-      orderItem.totalPrice !== req.query.orderItem_totalPrice &&
-      req.query.orderItem_totalPrice !== ""
+      orderItem.totalPrice !== req.body.orderItem_totalPrice &&
+      req.body.orderItem_totalPrice !== ""
     ) {
-      orderItem.totalPrice = req.query.orderItem_totalPrice;
+      orderItem.totalPrice = req.body.orderItem_totalPrice;
     }
 
     const data = await orderItem.save();

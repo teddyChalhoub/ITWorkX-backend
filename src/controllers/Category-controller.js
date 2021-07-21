@@ -22,12 +22,12 @@ exports.getCategory = async (req, res, next) => {
 
 exports.addCategory = async (req, res, next) => {
   try {
-    const category = await categoryModel.find({ name: req.query.name });
+    const category = await categoryModel.find({ name: req.body.name });
     if (category.length !== 0) throw new Error("Category already exists");
 
     const newCategory = new categoryModel({
-      name: req.query.name,
-      parent_category: req.query.category_id,
+      name: req.body.name,
+      parent_category: req.body.category_id,
     });
 
     const data = await newCategory.save();
@@ -53,19 +53,19 @@ exports.updateCategory = async (req, res, next) => {
     );
 
     newCategories.map((category) => {
-      if (category.name !== "" && req.query.name !== "") {
-        if (category.name.toLowerCase() == req.query.name.toLowerCase()) {
+      if (category.name !== "" && req.body.name !== "") {
+        if (category.name.toLowerCase() == req.body.name.toLowerCase()) {
           throw new Error("Category already exists");
         }
       }
     });
 
-    if (req.query.name) category.name = req.query.name;
+    if (req.body.name) category.name = req.body.name;
 
-    if (req.query.parent_category)
-      category.parent_category = req.query.parent_category;
+    if (req.body.parent_category)
+      category.parent_category = req.body.parent_category;
 
-    if (req.query.product_id) category.product.push(req.query.product_id);
+    if (req.body.product_id) category.product.push(req.body.product_id);
 
     const data = await category.save();
     res.json({

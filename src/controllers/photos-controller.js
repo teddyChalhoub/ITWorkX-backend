@@ -22,14 +22,14 @@ exports.addPhotos = async (req, res, next) => {
     if (req.files) {
       const photos = [];
       req.files.map((photo) => {
-        if (req.query.product_id) {
+        if (req.body.product_id) {
           photos.push({
             name: photo.originalname.replace(/\.(png|jpg|jpeg|gif)$/, ""),
             url: photo.path.replace(
               /home\/teddy\/Documents\/Projects\/cloned\/ITWorkX-backend\/public\//,
               ""
             ),
-            product: req.query.product_id,
+            product: req.body.product_id,
           });
         } else {
           photos.push({
@@ -45,9 +45,9 @@ exports.addPhotos = async (req, res, next) => {
       const data = await photoModel.insertMany(photos);
       if (data.length === 0) throw new Error("Photos hasn't been saved");
 
-      if (req.query.product_id !== "" && req.query.product_id !== undefined) {
+      if (req.body.product_id !== "" && req.body.product_id !== undefined) {
         const product = await productSchema.findById({
-          _id: req.query.product_id,
+          _id: req.body.product_id,
         });
         const push = [];
 

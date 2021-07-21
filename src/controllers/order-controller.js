@@ -48,7 +48,7 @@ exports.getAllOrdersByUser = async (req, res, next) => {
 exports.addOrder = async (req, res, next) => {
   try {
     const order = new orderModel({
-      user: req.query.user_id,
+      user: req.body.user_id,
     });
 
     const data = await order.save();
