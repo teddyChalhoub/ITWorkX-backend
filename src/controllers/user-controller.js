@@ -23,7 +23,7 @@ export const register = async (req, res, next) => {
     });
 
     const userInfo = await userSchema.find({ email: req.body.email });
-    console.log(userInfo);
+
     if (userInfo.length > 0) {
       throw new Error("User already exists");
     }
@@ -63,10 +63,10 @@ export const logIn = async (req, res, next) => {
       .findOne({ email: req.body.email })
       .populate("user_role");
     if (!user) return res.send({ msg: "Not Existing User" });
-    console.log(user);
+
 
     const validPass = bcrypt.compareSync(req.body.password, user.password);
-    console.log(validPass);
+
     if (!validPass) return res.send({ msg: "Wrong Password" });
 
     const token = jwt.sign({ _id: user._id }, "dsfsdfsdfsdgfghh");
@@ -90,11 +90,11 @@ export const tokenizer = (req, res, next) => {
 };
 export const isAdmin = async (req, res, next) => {
   try {
-    console.log(req.user._id);
+
     const user = await userSchema.findById({ _id: req.user._id });
     const userRole = await UserRole.findById({ _id: user.user_role[0] });
     const role = await Role.findById({ _id: userRole.role_id });
-    console.log(user);
+
     if (role.name === "admin") {
       next();
     } else {
@@ -104,23 +104,6 @@ export const isAdmin = async (req, res, next) => {
     handleError(err, res);
   }
 };
-
-// export const isAdmin = async (req, res, next) => {
-//   try {
-//     console.log(req.user._id);
-//     const user = await userSchema.findById({ _id: req.user._id });
-//     const userRole = await UserRole.findById({ _id: user.user_role[0] });
-//     const role = await Role.findById({ _id: userRole.role_id });
-//     console.log(user);
-//     if (role.name === "user") {
-//       next();
-//     } else {
-//       throw new Error("user is not a admin");
-//     }
-//   } catch (err) {
-//     handleError(err, res);
-//   }
-// };
 
 const handleError = (err, response) => {
   response.json({ success: false, message: err.message });

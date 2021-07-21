@@ -25,7 +25,7 @@ exports.getProductsByTitle = async (req, res, next) => {
   try {
     const product = await productSchema
       .findOne({ title: req.params.title })
-      .populate("images");
+      .populate({ path: "images", select: ["name", "url"] });
     if (product.length === 0) throw Error("No product has been found");
 
     res.json({
@@ -150,7 +150,7 @@ exports.deleteProductsById = async (req, res, next) => {
         _id: products.category._id,
       });
       if (category) category.product.pull(products._id);
-      await category.save();  
+      await category.save();
     }
 
     if (products.images.length > 0) {

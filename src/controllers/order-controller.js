@@ -1,5 +1,6 @@
 import orderModel from "../models/order-model";
 import orderItemsModel from "../models/orderItems-model";
+import productModel from "../models/Products-model";
 
 exports.getAllOrders = async (req, res, next) => {
   try {
@@ -67,10 +68,22 @@ exports.deleteOrder = async (req, res, next) => {
   try {
     const order = await orderModel.findById({ _id: req.params.id });
     if (!order) throw new Error("No order has been found");
+
     if (order.orderItem.length > 0) {
       order.orderItem.map(async (value) => {
-        const orderItem = await orderItemsModel.deleteOne({ _id: value });
-        if (!orderItem.ok) throw new Error("order Item not deleted");
+        const orderItem = await orderItemsModel.findById({ _id: value });
+
+        const product = await productModel.findById({
+          _id: orderItem.products,
+        });
+
+        product.orderItem.pull(orderItem._id);
+        await product.save();
+
+        const deleteOrderItem = await orderItemsModel.deleteOne({
+          _id: orderItem._id,
+        });
+        if (!deleteOrderItem.ok) throw new Error("order Item not deleted");
       });
     }
 

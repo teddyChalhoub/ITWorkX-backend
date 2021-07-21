@@ -1,6 +1,6 @@
 import orderItemsModel from "../models/orderItems-model";
 import orderModel from "../models/order-model";
-import userModel from "../models/User-model";
+import productModel from "../models/Products-model";
 
 exports.getAllOrderItems = async (req, res, next) => {
   try {
@@ -22,7 +22,7 @@ exports.getAllOrderItems = async (req, res, next) => {
 };
 
 exports.addOrderItem = async (req, res, next) => {
-  console.log(req.user._id);
+
   try {
     const orderItem = new orderItemsModel({
       products: req.query.product_id,
@@ -38,6 +38,11 @@ exports.addOrderItem = async (req, res, next) => {
 
     await order.save();
 
+    const product = await productModel.findById({ _id: orderItem.products });
+
+    product.orderItem.push(orderItem._id);
+    await product.save();
+
     res.json({
       success: true,
       message: "Successfully saved order",
@@ -49,7 +54,7 @@ exports.addOrderItem = async (req, res, next) => {
 };
 
 exports.updateOrderItem = async (req, res, next) => {
-  console.log(req.params.id);
+
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,
@@ -95,6 +100,12 @@ exports.deleteOrderItem = async (req, res, next) => {
 
       if (order) order.orderItem.pull(orderItem._id);
       await order.save();
+    }
+
+    const product = await productModel.findById({ _id: orderItem.products });
+    if (product) {
+      product.orderItem.pull(orderItem._id);
+      await product.save();
     }
 
     const deleted = await orderItemsModel.deleteOne({ _id: orderItem._id });

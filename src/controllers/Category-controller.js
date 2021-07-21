@@ -6,7 +6,11 @@ exports.getCategory = async (req, res, next) => {
     const categories = await categoryModel
       .find()
       .populate({ path: "parent_category", select: ["name"] })
-      .populate({ path: "product", populate: { path: "images" } });
+      .populate({
+        path: "product",
+        populate: { path: "images", select: ["name", "url"] },
+      });
+
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
@@ -85,9 +89,7 @@ exports.deleteCategory = async (req, res, next) => {
 
     if (products.length > 0) {
       products.map(async (data) => {
-
         if (data.category.equals(category._id)) {
-
           data.category = undefined;
         }
         await data.save();
@@ -96,7 +98,7 @@ exports.deleteCategory = async (req, res, next) => {
 
     const deleted = await categoryModel.deleteOne({ _id: category._id });
     if (!deleted.ok)
-      throw new Error("Failed process: category couldn't be deleted"); 
+      throw new Error("Failed process: category couldn't be deleted");
 
     res.json({
       success: true,
