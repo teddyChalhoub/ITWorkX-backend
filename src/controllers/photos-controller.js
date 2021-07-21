@@ -30,6 +30,7 @@ exports.addPhotos = async (req, res, next) => {
               ""
             ),
             product: req.body.product_id,
+            
           });
         } else {
           photos.push({
@@ -38,6 +39,7 @@ exports.addPhotos = async (req, res, next) => {
               /home\/teddy\/Documents\/Projects\/cloned\/ITWorkX-backend\/public\//,
               ""
             ),
+            isCarousel: req.body.isCarousel,
           });
         }
       });

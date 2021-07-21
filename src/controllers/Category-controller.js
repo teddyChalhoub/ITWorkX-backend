@@ -1,5 +1,6 @@
 import categoryModel from "../models/Category-model";
 import productModel from "../models/Products-model";
+import photoModel from "../models/photos-model";
 
 exports.getCategory = async (req, res, next) => {
   try {
@@ -9,12 +10,24 @@ exports.getCategory = async (req, res, next) => {
       .populate({
         path: "product",
         populate: { path: "images", select: ["name", "url"] },
+        options: { sort: { createdAt: -1 } },
       });
 
     if (categories.length === 0)
       throw new Error("No categories has been found");
 
-    res.json({ success: true, data: categories });
+    const photoCarousel = [];
+    const photos = await photoModel.find();
+    if (photos.length > 0) {
+      photos.map((photo) => {
+        if (photo.isCarousel) {
+          photoCarousel.push(photo);
+        }
+      });
+    }
+    const data = [{ categories: categories, Carousel: photoCarousel }];
+
+    res.json({ success: true, data: data });
   } catch (err) {
     handleError(err, res);
   }
