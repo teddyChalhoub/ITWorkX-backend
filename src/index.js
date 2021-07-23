@@ -9,6 +9,7 @@ import { connectDB } from "./db";
 import cors from "cors";
 import {isAdmin, tokenizer} from "./controllers/user-controller";
 import path from "path";
+import NodeMailer from "./routes/NodeMailer";
 
 const app = express();
 
@@ -21,11 +22,11 @@ app.use("/user",userRoute);
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/order", order);
 app.use("/orderItem", orderItem);
-
-
+app.use("/NodeMailer", NodeMailer);
 
 const dbConnection = async () => {
-    await connectDB();
-    app.listen(5000, () => console.log("listening at port 5000"));
-}
+  await connectDB();
+  app.listen(5000, () => console.log("listening at port 5000"));
+};
+
 dbConnection();
