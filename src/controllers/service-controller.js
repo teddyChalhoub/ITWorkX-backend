@@ -1,9 +1,10 @@
-import { response } from "express";
+import photoModel from "../models/photos-model";
 import ServiceModel from "../models/service-models";
+import fs from "fs/promises";
 
 exports.getServices = async (req, res) => {
   try {
-    const services = await ServiceModel.find();
+    const services = await ServiceModel.find().populate("imageUrl");
 
     if (services.length === 0) throw new Error("No services found");
     res.json({
@@ -70,10 +71,27 @@ exports.deleteServices = async (req, res) => {
       _id: req.params.id,
     });
     if (!service) throw new Error("Service doesn't exist");
-    const deleteService = await ServiceModel.deleteOne({_id:service._id});
+
+    if (service.imageUrl.length > 0) {
+      service.imageUrl.map(async (image) => {
+        const photo = await photoModel.findById({
+          _id: image,
+        });
+
+        await fs.unlink(`public${photo.url}`);
+
+        await photoModel.deleteOne({ _id: photo._id });
+      }); 
+    }
+
+    const deleteService = await ServiceModel.deleteOne({ _id: service._id });
     if (!deleteService.ok)
-    throw new Error ("The service isn't successfully deleted")
-    res.json({success:true,message:"Service deleted successfully", id:deleteService._id});
+      throw new Error("The service isn't successfully deleted");
+    res.json({
+      success: true,
+      message: "Service deleted successfully",
+      id: deleteService._id,
+    });
   } catch (err) {
     handleError(err, res);
   }
