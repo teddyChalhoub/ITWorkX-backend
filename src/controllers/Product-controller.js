@@ -25,7 +25,7 @@ exports.getProductsByTitle = async (req, res, next) => {
   try {
     const product = await productSchema
       .findOne({ title: req.params.title })
-      .populate("images");
+      .populate({ path: "images", select: ["name", "url"] });
     if (product.length === 0) throw Error("No product has been found");
 
     res.json({
@@ -41,24 +41,24 @@ exports.getProductsByTitle = async (req, res, next) => {
 exports.addProducts = async (req, res, next) => {
   try {
     let product = new productSchema({
-      title: req.query.title,
-      subTitle: req.query.subTitle,
-      price: req.query.price,
-      description: req.query.description,
-      numberOfAvailability: req.query.numberOfAvailability,
-      isAvailable: req.query.isAvailable,
-      newItem: req.query.newItem,
-      discount: req.query.discount,
-      category: req.query.category_id,
+      title: req.body.title,
+      subTitle: req.body.subTitle,
+      price: req.body.price,
+      description: req.body.description,
+      numberOfAvailability: req.body.numberOfAvailability,
+      isAvailable: req.body.isAvailable,
+      newItem: req.body.newItem,
+      discount: req.body.discount,
+      category: req.body.category_id,
     });
 
-    if (!req.query.isAvailable) product.isAvailable = true;
-    if (!req.query.newItem) product.newItem = true;
+    if (!req.body.isAvailable) product.isAvailable = true;
+    if (!req.body.newItem) product.newItem = true;
 
     const newProduct = await product.save();
-    if (req.query.category_id) {
+    if (req.body.category_id) {
       const category = await categoryModel.findById({
-        _id: req.query.category_id,
+        _id: req.body.category_id,
       });
 
       category.product.push(newProduct._id);
@@ -80,46 +80,46 @@ exports.updateProductsById = async (req, res, next) => {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) throw Error("Product doesn't exists");
 
-    if (req.query.title != "" && products.title != req.query.title)
-      products.title = req.query.title;
+    if (req.body.title != "" && products.title != req.body.title)
+      products.title = req.body.title;
 
-    if (req.query.subTitle != "" && products.subTitle != req.query.subTitle)
-      products.subTitle = req.query.subTitle;
+    if (req.body.subTitle != "" && products.subTitle != req.body.subTitle)
+      products.subTitle = req.body.subTitle;
 
-    if (req.query.price != "" && products.price != req.query.price)
-      products.price = req.query.price;
+    if (req.body.price != "" && products.price != req.body.price)
+      products.price = req.body.price;
 
     if (
-      req.query.description != "" &&
-      products.description != req.query.description
+      req.body.description != "" &&
+      products.description != req.body.description
     )
-      products.description = req.query.description;
+      products.description = req.body.description;
 
     if (
-      req.query.numberOfAvailability != "" &&
-      products.numberOfAvailability != req.query.numberOfAvailability
+      req.body.numberOfAvailability != "" &&
+      products.numberOfAvailability != req.body.numberOfAvailability
     )
-      products.numberOfAvailability = req.query.numberOfAvailability;
+      products.numberOfAvailability = req.body.numberOfAvailability;
 
     if (
-      req.query.isAvailable != "" &&
-      products.isAvailable != req.query.isAvailable
+      req.body.isAvailable != "" &&
+      products.isAvailable != req.body.isAvailable
     )
-      products.isAvailable = req.query.isAvailable;
+      products.isAvailable = req.body.isAvailable;
 
-    if (req.query.newItem !== "" && req.query.newItem !== products.newItem)
-      products.newItem = req.query.newItem;
+    if (req.body.newItem !== "" && req.body.newItem !== products.newItem)
+      products.newItem = req.body.newItem;
 
-    if (req.query.discount !== "" && req.query.discount !== products.discount)
-      products.discount = req.query.discount;
+    if (req.body.discount !== "" && req.body.discount !== products.discount)
+      products.discount = req.body.discount;
 
     if (
-      req.query.category_id !== "" &&
-      req.query.category_id !== products.category
+      req.body.category_id !== "" &&
+      req.body.category_id !== products.category
     ) {
-      products.category = req.query.category_id;
+      products.category = req.body.category_id;
       const category = await categoryModel.findById({
-        _id: req.query.category_id,
+        _id: req.body.category_id,
       });
 
       category.product.push(products._id);
@@ -150,7 +150,7 @@ exports.deleteProductsById = async (req, res, next) => {
         _id: products.category._id,
       });
       if (category) category.product.pull(products._id);
-      await category.save();  
+      await category.save();
     }
 
     if (products.images.length > 0) {

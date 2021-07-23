@@ -1,5 +1,6 @@
 import orderModel from "../models/order-model";
 import orderItemsModel from "../models/orderItems-model";
+import productModel from "../models/Products-model";
 
 exports.getAllOrders = async (req, res, next) => {
   try {
@@ -19,10 +20,35 @@ exports.getAllOrders = async (req, res, next) => {
   }
 };
 
+exports.getAllOrdersByUser = async (req, res, next) => {
+  try {
+    const order = await orderModel
+      .findOne({ user: req.user._id })
+      .populate({
+        path: "user",
+        populate: { path: "user_role", populate: { path: "role_id" } },
+      })
+      .populate({
+        path: "orderItem",
+        populate: { path: "products", select: ["title", "price", "images"] },
+      });
+
+    if (!order) throw new Error("No order has been found ");
+
+    res.json({
+      success: true,
+      message: "Successfully retrieved user order",
+      data: order,
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
+};
+
 exports.addOrder = async (req, res, next) => {
   try {
     const order = new orderModel({
-      user: req.query.user_id,
+      user: req.body.user_id,
     });
 
     const data = await order.save();
@@ -42,10 +68,22 @@ exports.deleteOrder = async (req, res, next) => {
   try {
     const order = await orderModel.findById({ _id: req.params.id });
     if (!order) throw new Error("No order has been found");
+
     if (order.orderItem.length > 0) {
       order.orderItem.map(async (value) => {
-        const orderItem = await orderItemsModel.deleteOne({ _id: value });
-        if (!orderItem.ok) throw new Error("order Item not deleted");
+        const orderItem = await orderItemsModel.findById({ _id: value });
+
+        const product = await productModel.findById({
+          _id: orderItem.products,
+        });
+
+        product.orderItem.pull(orderItem._id);
+        await product.save();
+
+        const deleteOrderItem = await orderItemsModel.deleteOne({
+          _id: orderItem._id,
+        });
+        if (!deleteOrderItem.ok) throw new Error("order Item not deleted");
       });
     }
 

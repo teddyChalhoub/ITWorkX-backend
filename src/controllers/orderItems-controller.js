@@ -1,5 +1,6 @@
 import orderItemsModel from "../models/orderItems-model";
 import orderModel from "../models/order-model";
+import productModel from "../models/Products-model";
 
 exports.getAllOrderItems = async (req, res, next) => {
   try {
@@ -21,21 +22,26 @@ exports.getAllOrderItems = async (req, res, next) => {
 };
 
 exports.addOrderItem = async (req, res, next) => {
+
   try {
     const orderItem = new orderItemsModel({
-      products: req.query.product_id,
-      quantity: req.query.quantity,
-      totalPrice: req.query.totalPrice,
+      products: req.body.product_id,
+      quantity: req.body.quantity,
+      totalPrice: req.body.totalPrice,
     });
     const order = await orderModel.findOne({ user: req.user._id });
 
     orderItem.order = order._id;
-    orderItem.order = req.query.order_id;
     const data = await orderItem.save();
 
     order.orderItem.push(data._id);
 
     await order.save();
+
+    const product = await productModel.findById({ _id: orderItem.products });
+
+    product.orderItem.push(orderItem._id);
+    await product.save();
 
     res.json({
       success: true,
@@ -48,25 +54,26 @@ exports.addOrderItem = async (req, res, next) => {
 };
 
 exports.updateOrderItem = async (req, res, next) => {
+
   try {
     const orderItem = await orderItemsModel.findById({
-      _id: req.query.orderItem_id,
+      _id: req.params.id,
     });
 
     if (!orderItem) throw new Error("No order Items has been found ");
 
     if (
-      orderItem.quantity !== req.query.orderItem_quantity &&
-      req.query.orderItem_quantity !== ""
+      orderItem.quantity !== req.body.orderItem_quantity &&
+      req.body.orderItem_quantity !== ""
     ) {
-      orderItem.quantity = req.query.orderItem_quantity;
+      orderItem.quantity = req.body.orderItem_quantity;
     }
 
     if (
-      orderItem.totalPrice !== req.query.orderItem_totalPrice &&
-      req.query.orderItem_totalPrice !== ""
+      orderItem.totalPrice !== req.body.orderItem_totalPrice &&
+      req.body.orderItem_totalPrice !== ""
     ) {
-      orderItem.totalPrice = req.query.orderItem_totalPrice;
+      orderItem.totalPrice = req.body.orderItem_totalPrice;
     }
 
     const data = await orderItem.save();
@@ -82,16 +89,24 @@ exports.updateOrderItem = async (req, res, next) => {
 };
 
 exports.deleteOrderItem = async (req, res, next) => {
-  
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,
     });
     if (!orderItem) throw new Error("No order Items has been found ");
 
-    const order = await orderModel.findById({ _id: orderItem.order });
+    if (orderItem.order) {
+      const order = await orderModel.findById({ _id: orderItem.order });
 
-    if (order) order.orderItem.pull(orderItem._id);
+      if (order) order.orderItem.pull(orderItem._id);
+      await order.save();
+    }
+
+    const product = await productModel.findById({ _id: orderItem.products });
+    if (product) {
+      product.orderItem.pull(orderItem._id);
+      await product.save();
+    }
 
     const deleted = await orderItemsModel.deleteOne({ _id: orderItem._id });
     if (!deleted.ok)
