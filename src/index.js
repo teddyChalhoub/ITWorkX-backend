@@ -5,6 +5,7 @@ import photo from "./routes/photos-route";
 import userRoute from "./routes/user-routes";
 import order from "./routes/order-route";
 import orderItem from "./routes/orderItems-route";
+import service from "./routes/service-route";
 import { connectDB } from "./db";
 import cors from "cors";
 // import {isAdmin, tokenizer} from "./controllers/user-controller";
@@ -22,6 +23,7 @@ app.use("/photo", photo);
 app.use("/user", userRoute);
 app.use("/order", order);
 app.use("/orderItem", orderItem);
+app.use("/service", service);
 app.use("/NodeMailer", NodeMailer);
 
 const dbConnection = async () => {

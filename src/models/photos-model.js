@@ -8,6 +8,10 @@ const PhotoModel = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "product",
     },
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "services",
+    },
     isCarousel: { type: Boolean, default: false },
   },
   { timestamps: true }

@@ -1,5 +1,6 @@
 import photoModel from "../models/photos-model";
 import productSchema from "../models/Products-model";
+import serviceSchema from "../models/service-models";
 import fs from "fs/promises";
 
 exports.getPhotos = async (req, res, next) => {
@@ -13,7 +14,7 @@ exports.getPhotos = async (req, res, next) => {
       data: photos,
     });
   } catch (err) {
-    handleError(err, res); 
+    handleError(err, res);
   }
 };
 
@@ -30,7 +31,15 @@ exports.addPhotos = async (req, res, next) => {
               ""
             ),
             product: req.body.product_id,
-            
+          });
+        } else if (req.body.service_id) {
+          photos.push({
+            name: photo.originalname.replace(/\.(png|jpg|jpeg|gif)$/, ""),
+            url: photo.path.replace(
+              /home\/teddy\/Documents\/Projects\/cloned\/ITWorkX-backend\/public\//,
+              ""
+            ),
+            service: req.body.service_id,
           });
         } else {
           photos.push({
@@ -53,13 +62,28 @@ exports.addPhotos = async (req, res, next) => {
         });
         const push = [];
 
-        data.map((image) => { 
+        data.map((image) => {
           push.push(image._id);
         });
 
         product.images.push({ $each: push });
 
         await product.save();
+      }
+
+      if (req.body.service_id !== "" && req.body.service_id !== undefined) {
+        const service = await serviceSchema.findById({
+          _id: req.body.service_id,
+        });
+        const push = [];
+
+        data.map((image) => {
+          push.push(image._id);
+        });
+
+        service.imageUrl.push({ $each: push });
+
+        await service.save();
       }
 
       res.json({
@@ -89,6 +113,16 @@ exports.deletePhotoById = async (req, res, next) => {
         product.images.pull(photo._id);
 
         await product.save();
+      }
+    }
+    
+    if (photo.service !== undefined) {
+      const service = await serviceSchema.findById({ _id: photo.service });
+
+      if (service) {
+        service.imageUrl.pull(photo._id);
+
+        await service.save();
       }
     }
     const deleted = await photoModel.deleteOne({ _id: photo._id });
