@@ -10,7 +10,7 @@ exports.getCategory = async (req, res, next) => {
       .populate({
         path: "product",
         populate: { path: "images", select: ["name", "url"] },
-        options: { sort: { createdAt: -1 } },
+        
       });
 
     if (categories.length === 0)

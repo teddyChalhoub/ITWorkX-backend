@@ -13,7 +13,7 @@ exports.getPhotos = async (req, res, next) => {
       data: photos,
     });
   } catch (err) {
-    handleError(err, res);
+    handleError(err, res); 
   }
 };
 
@@ -53,7 +53,7 @@ exports.addPhotos = async (req, res, next) => {
         });
         const push = [];
 
-        data.map((image) => {
+        data.map((image) => { 
           push.push(image._id);
         });
 
