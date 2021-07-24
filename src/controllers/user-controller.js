@@ -68,7 +68,9 @@ export const logIn = async (req, res, next) => {
 
     if (!validPass) return res.send({ msg: "Wrong Password" });
 
-    const token = jwt.sign({ _id: user._id }, "dsfsdfsdfsdgfghh");
+    const token = jwt.sign({ _id: user._id }, "dsfsdfsdfsdgfghh", {
+      expiresIn: "7d",
+    });
     res.send({ authToken: token });
   } catch (err) {
     handleError(err, res);
@@ -76,7 +78,6 @@ export const logIn = async (req, res, next) => {
 };
 
 export const tokenizer = (req, res, next) => {
-
   const token = req.header("auth-token");
   if (!token) return res.json({ success: false, message: "Token not present" });
 

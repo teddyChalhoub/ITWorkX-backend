@@ -87,10 +87,12 @@ exports.updateOrderItem = async (req, res, next) => {
 };
 
 exports.deleteOrderItem = async (req, res, next) => {
+  console.log(req.params.id);
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,
     });
+    console.log(!orderItem);
     if (!orderItem) throw new Error("No order Items has been found ");
 
     if (orderItem.order) {
