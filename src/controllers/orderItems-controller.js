@@ -22,7 +22,6 @@ exports.getAllOrderItems = async (req, res, next) => {
 };
 
 exports.addOrderItem = async (req, res, next) => {
-
   try {
     const orderItem = new orderItemsModel({
       products: req.body.product_id,
@@ -54,7 +53,6 @@ exports.addOrderItem = async (req, res, next) => {
 };
 
 exports.updateOrderItem = async (req, res, next) => {
-
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,

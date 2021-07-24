@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 router.post("/send_mail", async (req, res) => {
   try {
     let { name, mobile, email, topic, message } = req.body;
-    console.log(req.body);
+
     const smtpConfig = {
       host: process.env.MAIL_HOST,
       port: process.env.MAIL_PORT,

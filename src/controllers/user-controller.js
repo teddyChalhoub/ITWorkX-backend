@@ -64,7 +64,6 @@ export const logIn = async (req, res, next) => {
       .populate("user_role");
     if (!user) return res.send({ msg: "Not Existing User" });
 
-
     const validPass = bcrypt.compareSync(req.body.password, user.password);
 
     if (!validPass) return res.send({ msg: "Wrong Password" });
@@ -77,20 +76,20 @@ export const logIn = async (req, res, next) => {
 };
 
 export const tokenizer = (req, res, next) => {
+
   const token = req.header("auth-token");
-  if (!token) return res.send("Token not present");
+  if (!token) return res.json({ success: false, message: "Token not present" });
 
   try {
     const verified = jwt.verify(token, "dsfsdfsdfsdgfghh");
     req.user = verified;
     next();
   } catch (err) {
-    res.send("Invalid Token");
+    res.json({ success: false, message: "Invalid Token" });
   }
 };
 export const isAdmin = async (req, res, next) => {
   try {
-
     const user = await userSchema.findById({ _id: req.user._id });
     const userRole = await UserRole.findById({ _id: user.user_role[0] });
     const role = await Role.findById({ _id: userRole.role_id });

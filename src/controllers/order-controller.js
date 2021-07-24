@@ -2,14 +2,13 @@ import orderModel from "../models/order-model";
 import orderItemsModel from "../models/orderItems-model";
 import productModel from "../models/Products-model";
 
-exports.getAllOrders = async (req, res, next) => {
+exports.getAllOrdersById = async (req, res, next) => {
   try {
     const orders = await orderModel
-      .find()
+      .findOne({ user: req.user._id })
       .populate("user")
-      .populate("orderItem");
-
-    if (orders.length === 0) throw new Error("No orders has been found ");
+      .populate({ path: "orderItem", populate: { path: "products" } });
+    if (!orders) throw new Error("No orders has been found ");
     res.json({
       success: true,
       message: "Successfully retrieved orders",

@@ -4,7 +4,7 @@ import { tokenizer } from "../controllers/user-controller";
 
 const router = express.Router();
 
-router.get("/",tokenizer, orderController.getAllOrders);
+router.get("/",tokenizer, orderController.getAllOrdersById);
 router.get("/userOrder",tokenizer, orderController.getAllOrdersByUser);
 router.post("/add", tokenizer,orderController.addOrder);
 router.put("/update/:id",tokenizer, orderController.updateOrder);
