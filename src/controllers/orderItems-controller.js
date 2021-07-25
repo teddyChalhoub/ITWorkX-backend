@@ -22,6 +22,7 @@ exports.getAllOrderItems = async (req, res, next) => {
 };
 
 exports.addOrderItem = async (req, res, next) => {
+
   try {
     const orderItem = new orderItemsModel({
       products: req.body.product_id,

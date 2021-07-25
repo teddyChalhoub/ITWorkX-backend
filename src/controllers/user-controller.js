@@ -62,16 +62,16 @@ export const logIn = async (req, res, next) => {
     const user = await userSchema
       .findOne({ email: req.body.email })
       .populate("user_role");
-    if (!user) return res.send({ msg: "Not Existing User" });
+    if (!user) throw new Error("Wrong Credentials");
 
     const validPass = bcrypt.compareSync(req.body.password, user.password);
 
-    if (!validPass) return res.send({ msg: "Wrong Password" });
+    if (!validPass) throw new Error("Wrong Credentials");
 
     const token = jwt.sign({ _id: user._id }, "dsfsdfsdfsdgfghh", {
       expiresIn: "7d",
     });
-    res.send({user:user ,authToken: token });
+    res.send({ success: true, data: user, authToken: token });
   } catch (err) {
     handleError(err, res);
   }
