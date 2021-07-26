@@ -4,7 +4,7 @@ const app = express();
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://teddy92:teddy123456@itworkx.6iufq.mongodb.net/ITWorkX-DB?retryWrites=true&w=majority`, {
+        await mongoose.connect(process.env.DB_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
