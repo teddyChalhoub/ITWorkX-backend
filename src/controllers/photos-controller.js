@@ -51,7 +51,7 @@ exports.addPhotos = async (req, res, next) => {
             isCarousel: req.body.isCarousel,
           });
         }
-      });
+      }); 
 
       const data = await photoModel.insertMany(photos);
       if (data.length === 0) throw new Error("Photos hasn't been saved");
