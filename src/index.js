@@ -37,7 +37,7 @@ app.get("*", (req, res) => {
 
 const dbConnection = async () => {
   await connectDB();
-  app.listen(PORT, () => console.log("listening at port " + PORT));
+  app.listen(PORT, "0.0.0.0", () => console.log("listening at port " + PORT));
 };
 
 dbConnection();
