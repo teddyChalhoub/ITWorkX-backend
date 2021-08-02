@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "npm install && node ./src/index.js",
     "build": "cd ITWorkX-frontend && npm install && npm run build"
   },
   "engines": {
