@@ -12,9 +12,6 @@
     "start": "node ./src/index.js",
     "build": "cd ITWorkX-frontend && npm install && npm run build"
   },
-  "engines": {
-    "node": "14.17.3"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
