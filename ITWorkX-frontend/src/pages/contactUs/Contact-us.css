@@ -1,0 +1,111 @@
+.app__form {
+  width: 100%;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.438rem 1.875rem -0.625rem #5c8986;
+}
+
+.app__form h1,
+.app__contact-info .contact-1 h1 {
+  margin-top: 0;
+}
+
+.email,
+.mnumber,
+.fname,
+.topic,
+.comment {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+.topic {
+  cursor: pointer;
+  background-color: white;
+  padding: 1rem;
+}
+
+.comment {
+  height: 120px;
+  cursor: pointer;
+}
+
+.comment:focus,
+.topic:focus {
+  outline: none;
+}
+
+.email,
+.mnumber,
+.fname {
+  background-color: white;
+  color: black;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn {
+  background-color: #486b68;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  /* display: inline-block; */
+  border: 0;
+  cursor: pointer;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.app__contact-info {
+  background-color: white;
+  padding: 15px 30px;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.438rem 1.875rem -0.625rem #5c8986;
+}
+
+.container__contact-us {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.contact-us__icon {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.contact-1 {
+  margin-bottom: 12%;
+}
+
+.address {
+  margin-bottom: 12%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

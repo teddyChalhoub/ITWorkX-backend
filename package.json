@@ -9,7 +9,11 @@
     ]
   },
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/index.js"
+    "start": "node ./src/index.js",
+    "build": "cd ITWorkX-frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": "14.17.3"
   },
   "author": "",
   "license": "ISC",

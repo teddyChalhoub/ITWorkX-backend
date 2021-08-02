@@ -1,0 +1,50 @@
+.categories {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+  flex-direction: column;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.categories:hover {
+  box-shadow: 0 0.438rem 1.875rem -0.625rem #5c8986;
+}
+
+.categories p {
+  border-bottom: 0.1rem solid #eeeeee;
+  padding: 1rem;
+  margin: 0;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.categories__left-border {
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: font-size 0.3s;
+  cursor: pointer;
+}
+
+.categories__left-border:hover {
+  border-left: 0.3rem solid #5c8986;
+  border-radius: 0.15rem;
+  font-size: 1.1rem;
+}
+
+.subCategory__display {
+  position: absolute;
+  left: 95%;
+  top: 15%;
+  padding: 1rem;
+  min-height: fit-content;
+  width: 70vw;
+  background-color: #fff;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  overflow: hidden;
+  z-index: 1;
+}

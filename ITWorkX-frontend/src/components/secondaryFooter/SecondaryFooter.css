@@ -1,0 +1,24 @@
+.footer-content {
+  background-color: black;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.footer-content .footer-content-message h3 {
+  color: white;
+}
+
+.socials a {
+  margin: 0 1rem;
+  font-size: 220%;
+  color: white;
+  text-decoration: none;
+}
+
+.socials a .fa-icon-color{
+    fill: white;
+}

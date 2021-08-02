@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap%27");
+
+* {
+  font-family: "Playfair Display", serif;
+  color: #334c4a;
+}
+
+body {
+  background-image: url("./utils/images/damon-lam-mxqOf6qVsLc-unsplash.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* .App {
+  text-align: center;
+} */
+
+/* .app__form {
+  width: 100%;
+}
+
+.email,
+.mnumber,
+.fname,
+.topic,
+.comment {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+.topic {
+  cursor: pointer;
+  background-color: white;
+}
+
+.comment {
+  height: 120px;
+  cursor: pointer;
+}
+
+.email,
+.mnumber,
+.fname {
+  background-color: white;
+  color: black;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn {
+  background-color: rgb(104, 103, 103);
+  border-radius: 4px;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.app__contact-info {
+  background-color: white;
+  padding: 15px 30px;
+}
+
+.container__contact-us {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.contact-us__icon {
+  display: flex;
+  justify-content: space-evenly; 
+}
+*/

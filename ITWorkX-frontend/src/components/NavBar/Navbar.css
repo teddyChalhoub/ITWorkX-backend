@@ -1,0 +1,90 @@
+.app__navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #009688;
+  color: black;
+}
+
+.logo {
+  max-width: 10%;
+}
+
+.app__navbar__img {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app__navbar__img img {
+  border-radius: 50%;
+  margin-left: 1rem;
+  background-color: #8bddd0;
+}
+
+.app__navbar__input {
+  width: 40%;
+  height: 10%;
+  margin: auto 0 auto 1rem;
+  background-color: white;
+  color: black;
+  padding: 0.7rem;
+  border: 0;
+  border-radius: 0.3rem;
+  outline: none;
+  transform: translateX(10%);
+}
+
+.navbar__menu {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  width: 50%;
+  height: 50%;
+  justify-content: space-evenly;
+  align-self: center;
+}
+
+.links {
+  text-decoration: none;
+  color: white;
+  align-self: center;
+}
+
+.cart__icon {
+  cursor: pointer;
+}
+
+.user__icon {
+  cursor: pointer;
+}
+
+.app__user__icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+
+.app__user__log-in {
+  top: 100%;
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  width: max-content;
+  /* column-gap: 0.3rem; */
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+.app__user__log-in > a {
+  text-decoration: none;
+  color: #000;
+  padding: 0.3rem;
+}
+
+.app__log-in .app__sign-up {
+  cursor: pointer;
+  border-left: 0.1rem solid #000;
+}

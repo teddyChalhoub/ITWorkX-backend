@@ -1,0 +1,59 @@
+.wrapper {
+  margin: auto;
+  padding: 2rem;
+  background-color: #ededed;
+}
+.store__page--categories {
+  flex: 20%;
+  width: 100%;
+  margin-left: 1.5rem;
+}
+
+.store__page-each-card {
+  margin-bottom: 1rem;
+}
+
+.product__card {
+  flex: 75%;
+  margin-left: 5%;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.store_card_link_decoration {
+  text-decoration: none;
+}
+
+.wrapper__filter {
+  text-align: center;
+  background-color: white;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+}
+
+.wrapper__filter:hover {
+  box-shadow: 0 0.438rem 1.875rem -0.625rem #5c8986;
+}
+
+.wrapper__filter p {
+  border-bottom: 0.1rem solid #eeeeee;
+  padding: 1rem;
+  margin: 0;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+.wrapper__filter a {
+  display: block;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: font-size 0.3s;
+  cursor: pointer;
+}
+
+.wrapper__filter a:hover {
+  border-left: 0.3rem solid #5c8986;
+  border-radius: 0.15rem;
+  font-size: 1.1rem;
+}

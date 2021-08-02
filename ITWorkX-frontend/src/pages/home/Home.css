@@ -1,0 +1,38 @@
+.home__about_business,
+.home__hardware-solution,
+.home__container {
+  position: relative;
+  background-color: #fff;
+  height: 100%;
+}
+
+.home__container {
+  overflow: hidden;
+}
+
+.home__about_business,
+.home__hardware-solution {
+  padding: 2rem;
+  z-index: 2;
+}
+
+/* .left__triangle {
+  position: absolute;
+  bottom: 72.25%;
+  width: 59.25%;
+  height: 9%;
+  left: -10%;
+  background: white;
+  z-index: 1;
+  transform: rotate(10deg);
+}
+.right__triangle {
+  position: absolute;
+  bottom: 72.25%;
+  width: 59.25%;
+  height: 9%;
+  right: -10%;
+  background: white;
+  z-index: 1;
+  transform: rotate(-10deg);
+} */

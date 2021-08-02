@@ -1,0 +1,59 @@
+.sign_up {
+  text-align: center;
+}
+
+.sign_up .form-sign-up {
+  background: rgb(220, 220, 220, 0.5);
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.sign_up input {
+  width: 40%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 0;
+}
+
+.sign_up input:focus {
+  outline: none;
+}
+
+.sign_up p {
+  font-size: 50px;
+  margin-top: 0;
+}
+.note input {
+  line-height: 100px;
+}
+.sign_up .button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 10%;
+  border-radius: 10px;
+}
+.sign_up input[type="checkbox"] {
+  width: 30px;
+  background: white;
+  border-radius: 20px;
+  border: 0;
+}
+
+.border-red {
+  border: 0.1rem solid red !important;
+}
+.signup_checkbox {
+  margin: 1rem;
+}

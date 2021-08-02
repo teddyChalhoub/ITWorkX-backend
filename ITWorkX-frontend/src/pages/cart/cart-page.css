@@ -1,0 +1,110 @@
+.cart__container,
+.cart__container__payment--subTotal,
+.cart__container__payment--delivery,
+.cart__container__payment--orderTotal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cart__container {
+  width: 90%;
+  margin: 2.5% auto;
+}
+
+.cart__titles,
+.cart__container__payment--subTotal,
+.cart__container__payment--delivery,
+.cart__container__payment--orderTotal {
+  justify-content: space-between;
+}
+.cart__container__product__details {
+  flex: 50%;
+  width: 60%;
+  background-color: #fff;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.cart__container__product__details > p {
+  font-size: xx-large;
+  font-weight: 800;
+}
+
+.cart__titles {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cart__container__payment {
+  flex: 20%;
+  width: 25%;
+  background-color: #fff;
+  padding: 2rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background-color: #5c8986;
+}
+
+.cart__container__payment p {
+  color: #fff;
+}
+.cart__container__payment > p,
+.cart__payment__method--cash > p {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.cart__container__btn {
+  background-color: #486b68;
+  margin: 5% 26%;
+  min-width:fit-content;
+  width: 10rem;
+  color: #fff;
+  padding: 1rem;
+  border: 0;
+  border-radius: 0.3rem;
+}
+
+.cart__payment__method--cash .payment {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.cart__payment__method--cash .payment input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.cart__payment__method--cash .payment .checkmark {
+  position: absolute;
+  top: 18%;
+  left: 0;
+  height: 1rem;
+  width: 1rem;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.cart__payment__method--cash .payment:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.cart__payment__method--cash .payment input:checked ~ .checkmark {
+  background-color: #1f2e2d;
+}
+
+.cart__payment__method--cash .payment{
+  color: #fff;
+}

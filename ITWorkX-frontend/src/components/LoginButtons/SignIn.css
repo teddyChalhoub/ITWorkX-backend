@@ -1,0 +1,22 @@
+.app__sign-in-out {
+  width: 50%;
+  transform: translateX(60%);
+}
+.app__sign-in-out .btn {
+  background-color: #008770;
+  width: 2rem;
+  color: white;
+  padding: 14px 20px;
+  margin: 27% 7% 0 7%;
+  border: none;
+  cursor: pointer;
+  width: 25%;
+  border-radius: 5px;
+  align-items: center;
+
+}
+
+/* Add a hover effect for buttons */
+.btn:hover {
+  opacity: 0.8;
+}

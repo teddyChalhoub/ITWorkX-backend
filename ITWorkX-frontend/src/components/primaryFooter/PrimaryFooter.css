@@ -1,0 +1,83 @@
+.footer-container {
+  background-color: #4a897f;
+  position: relative;
+  width: 100%;
+  color: white;
+  padding-bottom: 1rem;
+}
+.logo-display img {
+  width: 15%;
+  height: 50%;
+  margin-top: 3%;
+  float: left;
+  margin: 2rem 4rem 0 2rem;
+
+  background-color: #8bddd0;
+  border-radius: 50%;
+}
+.row {
+  width: 62%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.col-1,
+.col-2,
+.col-3 {
+  flex: 33%;
+}
+
+.row h3 {
+  margin-top: 40px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 25px;
+  padding-right: 5rem;
+  color: white;
+}
+.row ul {
+  padding-left: 5px;
+  list-style: none;
+  line-height: 1.6;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.row ul li {
+  color: white;
+  width: 70%;
+}
+.text-bottom p {
+  color: white;
+  margin-top: 70px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.bottom-subs {
+  position: absolute;
+  width: 23%;
+  float: right;
+  top: 3.5rem;
+  right: 0;
+}
+.bottom-subs p {
+  color: white;
+}
+.bottom-subs input {
+  display: block;
+  width: 90%;
+  height: 2rem;
+  border-radius: 0.3rem;
+  border: 0;
+}
+.bottom-subs input:focus {
+  outline: 0;
+}
+
+.bottom-subs button {
+  margin: 20px 0;
+  width: 50%;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.3rem;
+}

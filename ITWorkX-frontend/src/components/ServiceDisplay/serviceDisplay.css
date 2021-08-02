@@ -1,0 +1,26 @@
+.item_details-img {
+width: 100%;
+}
+
+/* this is for card creation*/
+.item_details {
+  text-align: center;
+  width: 80%;
+  padding: 1rem;
+  margin:  1rem auto;
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+.item_details .title {
+  padding: 1rem;
+}
+
+.desc {
+  padding: 1rem;
+
+}
+
+.title {
+  text-align: center;
+}

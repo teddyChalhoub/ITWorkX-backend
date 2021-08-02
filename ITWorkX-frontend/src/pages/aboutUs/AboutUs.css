@@ -1,0 +1,61 @@
+.container__aboutUs {
+  width: 90%;
+  text-align: center;
+  margin: 1rem auto;
+}
+.first-para,
+.second-para,
+.components,
+.fourth-para {
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+.first-para,
+.components {
+  padding: 1rem;
+}
+
+.second-para,
+.fourth-para,
+.components {
+    margin-top: 1rem;
+}
+
+.first-para h1 {
+  font-size: 40px;
+}
+.first-para p {
+  font-size: 20px;
+}
+
+.container-second {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-second {
+  flex: 50%;
+}
+.image-second img {
+  width: 100%;
+  height: 100%;
+}
+
+.left img {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.right img {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+.text-second {
+  padding: 1rem;
+  flex: 47.2%;
+  font-size: 20px;
+}
+.components {
+  display: flex;
+  padding: 0 2rem;
+}

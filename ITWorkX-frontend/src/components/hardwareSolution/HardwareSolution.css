@@ -1,0 +1,55 @@
+.app__HardwareSolution {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  box-shadow: 0 0.438rem 1.875rem -0.625rem #5c8986;
+  background-color: #3e9789;
+  border-radius: 0.5rem;
+  margin: 2rem auto;
+}
+
+.app__HardwareSolution--img,
+.app__HardwareSolution--info {
+  flex: 48%;
+}
+
+.app__HardwareSolution--info {
+  padding: 1rem;
+}
+
+.app__HardwareSolution img {
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.app__HardwareSolution__paragraph {
+  text-align: center;
+}
+
+.HardwareSolution {
+  text-align: center;
+}
+.app__HardwareSolution p,
+.app__HardwareSolution h3 {
+  color: #fff;
+}
+
+.app__btn__shop {
+  width: 30%;
+  margin: 2rem auto;
+}
+
+.btn__shop {
+  background-color: #008770;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn__shop:hover {
+  opacity: 0.8;
+}
