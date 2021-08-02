@@ -11,6 +11,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "start": "node ./src/index.js",
+    "worker": "node ./src/index.js",
     "build": "cd ITWorkX-frontend && npm install && npm run build"
   },
   "engines": {
