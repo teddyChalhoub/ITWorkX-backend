@@ -1,8 +1,8 @@
-import categoryModel from "../models/Category-model";
-import productModel from "../models/Products-model";
-import photoModel from "../models/photos-model";
+import categoryModel from "../models/Category-model.js";
+import productModel from "../models/Products-model.js";
+import photoModel from "../models/photos-model.js";
 
-exports.getCategory = async (req, res, next) => {
+export const getCategory = async (req, res, next) => {
   try {
     const categories = await categoryModel
       .find()
@@ -33,7 +33,7 @@ exports.getCategory = async (req, res, next) => {
   }
 };
 
-exports.addCategory = async (req, res, next) => {
+export const addCategory = async (req, res, next) => {
   try {
     const category = await categoryModel.find({ name: req.body.name });
     if (category.length !== 0) throw new Error("Category already exists");
@@ -54,7 +54,7 @@ exports.addCategory = async (req, res, next) => {
   }
 };
 
-exports.updateCategory = async (req, res, next) => {
+export const updateCategory = async (req, res, next) => {
   try {
     const category = await categoryModel.findById({ _id: req.params.id });
     if (!category) throw new Error("Category doesn't exists");
@@ -91,7 +91,7 @@ exports.updateCategory = async (req, res, next) => {
   }
 };
 
-exports.deleteCategory = async (req, res, next) => {
+export const deleteCategory = async (req, res, next) => {
   try {
     const category = await categoryModel.findById({ _id: req.params.id });
     if (!category) {

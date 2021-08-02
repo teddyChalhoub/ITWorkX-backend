@@ -1,8 +1,8 @@
-import orderModel from "../models/order-model";
-import orderItemsModel from "../models/orderItems-model";
-import productModel from "../models/Products-model";
+import orderModel from "../models/order-model.js";
+import orderItemsModel from "../models/orderItems-model.js";
+import productModel from "../models/Products-model.js";
 
-exports.getAllOrdersById = async (req, res, next) => {
+export const getAllOrdersById = async (req, res, next) => {
   try {
     const orders = await orderModel
       .findOne({ user: req.user._id })
@@ -19,7 +19,7 @@ exports.getAllOrdersById = async (req, res, next) => {
   }
 };
 
-exports.getAllOrdersByUser = async (req, res, next) => {
+export const getAllOrdersByUser = async (req, res, next) => {
   try {
     const order = await orderModel
       .findOne({ user: req.user._id })
@@ -44,7 +44,7 @@ exports.getAllOrdersByUser = async (req, res, next) => {
   }
 };
 
-exports.addOrder = async (req, res, next) => {
+export const addOrder = async (req, res, next) => {
   try {
     const order = new orderModel({
       user: req.body.user_id,
@@ -61,9 +61,9 @@ exports.addOrder = async (req, res, next) => {
   }
 };
 
-exports.updateOrder = (req, res, next) => {};
+export const updateOrder = (req, res, next) => {};
 
-exports.deleteOrder = async (req, res, next) => {
+export const deleteOrder = async (req, res, next) => {
   try {
     const order = await orderModel.findById({ _id: req.params.id });
     if (!order) throw new Error("No order has been found");

@@ -10,7 +10,10 @@
   },
   "scripts": {
     "start": "node ./src/index.js",
-    "build": "cd ITWorkX-frontend && npm install && npm run build"
+    "build": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "14.17.3"
   },
   "author": "",
   "license": "ISC",
@@ -30,5 +33,6 @@
     "multer": "^1.4.2",
     "nodemailer": "^6.6.3",
     "nodemon": "^2.0.9"
-  }
+  },
+  "type": "module"
 }

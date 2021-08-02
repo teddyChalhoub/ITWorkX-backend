@@ -1,9 +1,9 @@
-import photoModel from "../models/photos-model";
-import productSchema from "../models/Products-model";
-import serviceSchema from "../models/service-models";
+import photoModel from "../models/photos-model.js";
+import productSchema from "../models/Products-model.js";
+import serviceSchema from "../models/service-models.js";
 import fs from "fs/promises";
 
-exports.getPhotos = async (req, res, next) => {
+export const getPhotos = async (req, res, next) => {
   try {
     const photos = await photoModel.find().populate("product");
     if (photos.length === 0) throw new Error("No Photos has been found ");
@@ -18,7 +18,7 @@ exports.getPhotos = async (req, res, next) => {
   }
 };
 
-exports.addPhotos = async (req, res, next) => {
+export const addPhotos = async (req, res, next) => {
   try {
     if (req.files) {
       const photos = [];
@@ -51,7 +51,7 @@ exports.addPhotos = async (req, res, next) => {
             isCarousel: req.body.isCarousel,
           });
         }
-      }); 
+      });
 
       const data = await photoModel.insertMany(photos);
       if (data.length === 0) throw new Error("Photos hasn't been saved");
@@ -99,7 +99,7 @@ exports.addPhotos = async (req, res, next) => {
   }
 };
 
-exports.deletePhotoById = async (req, res, next) => {
+export const deletePhotoById = async (req, res, next) => {
   try {
     const photo = await photoModel.findById({ _id: req.params.id });
     if (!photo) throw new Error("Photo doesn't exist");
@@ -115,7 +115,7 @@ exports.deletePhotoById = async (req, res, next) => {
         await product.save();
       }
     }
-    
+
     if (photo.service !== undefined) {
       const service = await serviceSchema.findById({ _id: photo.service });
 

@@ -1,9 +1,10 @@
-const { response } = require("express");
-const express = require("express");
+import { response } from "express";
+import express from "express";
+import { config } from "dotenv";
+import nodemailer from "nodemailer";
 const router = express.Router();
 const app = express();
-require("dotenv").config();
-const nodemailer = require("nodemailer");
+config();
 
 router.post("/send_mail", async (req, res) => {
   try {
@@ -61,4 +62,4 @@ router.post("/send_mail", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,16 +1,21 @@
 import express from "express";
-import photoController from "../controllers/photos-controller";
+import {
+  getPhotos,
+  addPhotos,
+  deletePhotoById,
+} from "../controllers/photos-controller.js";
 import multer from "multer";
-import path from "path";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const imageStorage = multer.diskStorage({
-  destination: path.join(__dirname,"../../public/images"),
+  destination: path.join(__dirname, "../../public/images"),
 
   filename: (req, file, cb) => {
-    cb(
-      null,
-      Date.now() + "-" + file.originalname
-    );
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
@@ -28,8 +33,8 @@ const router = express.Router();
 
 router.use("/", (req, res, next) => next());
 
-router.get("/", photoController.getPhotos);
-router.post("/add", imageUpload.array("images", 5), photoController.addPhotos);
-router.delete("/delete/:id", photoController.deletePhotoById);
+router.get("/", getPhotos);
+router.post("/add", imageUpload.array("images", 5), addPhotos);
+router.delete("/delete/:id", deletePhotoById);
 
-module.exports = router;
+export default router;

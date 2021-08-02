@@ -1,13 +1,19 @@
 import express from "express";
-import orderController from "../controllers/order-controller";
-import { tokenizer } from "../controllers/user-controller";
+import {
+  getAllOrdersById,
+  getAllOrdersByUser,
+  addOrder,
+  updateOrder,
+  deleteOrder,
+} from "../controllers/order-controller.js";
+import { tokenizer } from "../controllers/user-controller.js";
 
 const router = express.Router();
 
-router.get("/",tokenizer, orderController.getAllOrdersById);
-router.get("/userOrder",tokenizer, orderController.getAllOrdersByUser);
-router.post("/add", tokenizer,orderController.addOrder);
-router.put("/update/:id",tokenizer, orderController.updateOrder);
-router.delete("/delete/:id", tokenizer,orderController.deleteOrder);
+router.get("/", tokenizer, getAllOrdersById);
+router.get("/userOrder", tokenizer, getAllOrdersByUser);
+router.post("/add", tokenizer, addOrder);
+router.put("/update/:id", tokenizer, updateOrder);
+router.delete("/delete/:id", tokenizer, deleteOrder);
 
-module.exports = router;
+export default router;

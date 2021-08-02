@@ -1,8 +1,8 @@
-import photoModel from "../models/photos-model";
-import ServiceModel from "../models/service-models";
+import photoModel from "../models/photos-model.js";
+import ServiceModel from "../models/service-models.js";
 import fs from "fs/promises";
 
-exports.getServices = async (req, res) => {
+export const getServices = async (req, res) => {
   try {
     const services = await ServiceModel.find().populate("imageUrl");
 
@@ -17,7 +17,7 @@ exports.getServices = async (req, res) => {
   }
 };
 
-exports.addServices = async (req, res) => {
+export const addServices = async (req, res) => {
   try {
     const service = new ServiceModel({
       title: req.body.title,
@@ -36,7 +36,7 @@ exports.addServices = async (req, res) => {
   }
 };
 
-exports.updateServices = async (req, res) => {
+export const updateServices = async (req, res) => {
   try {
     const service = await ServiceModel.findById({ _id: req.params.id });
 
@@ -65,7 +65,7 @@ exports.updateServices = async (req, res) => {
   }
 };
 
-exports.deleteServices = async (req, res) => {
+export const deleteServices = async (req, res) => {
   try {
     const service = await ServiceModel.findById({
       _id: req.params.id,

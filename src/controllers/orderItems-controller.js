@@ -1,8 +1,8 @@
-import orderItemsModel from "../models/orderItems-model";
-import orderModel from "../models/order-model";
-import productModel from "../models/Products-model";
+import orderItemsModel from "../models/orderItems-model.js";
+import orderModel from "../models/order-model.js";
+import productModel from "../models/Products-model.js";
 
-exports.getAllOrderItems = async (req, res, next) => {
+export const getAllOrderItems = async (req, res, next) => {
   try {
     const orderItems = await orderItemsModel
       .find()
@@ -21,8 +21,7 @@ exports.getAllOrderItems = async (req, res, next) => {
   }
 };
 
-exports.addOrderItem = async (req, res, next) => {
-
+export const addOrderItem = async (req, res, next) => {
   try {
     const orderItem = new orderItemsModel({
       products: req.body.product_id,
@@ -53,7 +52,7 @@ exports.addOrderItem = async (req, res, next) => {
   }
 };
 
-exports.updateOrderItem = async (req, res, next) => {
+export const updateOrderItem = async (req, res, next) => {
   try {
     const orderItem = await orderItemsModel.findById({
       _id: req.params.id,
@@ -87,7 +86,7 @@ exports.updateOrderItem = async (req, res, next) => {
   }
 };
 
-exports.deleteOrderItem = async (req, res, next) => {
+export const deleteOrderItem = async (req, res, next) => {
   console.log(req.params.id);
   try {
     const orderItem = await orderItemsModel.findById({

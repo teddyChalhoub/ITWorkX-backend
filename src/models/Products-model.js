@@ -30,4 +30,4 @@ let products = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("product", products);
+export default mongoose.model("product", products);

@@ -10,4 +10,4 @@ const serviceSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("services", serviceSchema);
+export default mongoose.model("services", serviceSchema);

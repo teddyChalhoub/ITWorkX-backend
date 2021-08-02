@@ -1,10 +1,10 @@
-import userSchema from "../models/User-model";
+import userSchema from "../models/User-model.js";
 import bcrypt from "bcryptjs";
 import { response } from "express";
 import jwt from "jsonwebtoken";
-import UserRole from "../models/User-role-model";
-import Role from "../models/Role-model";
-import orderModel from "../models/order-model";
+import UserRole from "../models/User-role-model.js";
+import Role from "../models/Role-model.js";
+import orderModel from "../models/order-model.js";
 
 export const register = async (req, res, next) => {
   try {

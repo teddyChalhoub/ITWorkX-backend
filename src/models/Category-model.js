@@ -7,12 +7,14 @@ let categories = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
     },
-    product: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "product",
-    }],
+    product: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("category", categories);
+export default mongoose.model("category", categories);

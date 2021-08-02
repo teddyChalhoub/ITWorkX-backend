@@ -1,9 +1,9 @@
-import productSchema from "../models/Products-model";
-import categoryModel from "../models/Category-model";
-import photoModel from "../models/photos-model";
+import productSchema from "../models/Products-model.js";
+import categoryModel from "../models/Category-model.js";
+import photoModel from "../models/photos-model.js";
 import fs from "fs/promises";
 
-exports.getProducts = async (req, res, next) => {
+export const getProducts = async (req, res, next) => {
   try {
     const products = await productSchema
       .find()
@@ -21,7 +21,7 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
-exports.getProductsByTitle = async (req, res, next) => {
+export const getProductsByTitle = async (req, res, next) => {
   try {
     const product = await productSchema
       .findOne({ title: req.params.title })
@@ -38,7 +38,7 @@ exports.getProductsByTitle = async (req, res, next) => {
   }
 };
 
-exports.addProducts = async (req, res, next) => {
+export const addProducts = async (req, res, next) => {
   try {
     let product = new productSchema({
       title: req.body.title,
@@ -75,7 +75,7 @@ exports.addProducts = async (req, res, next) => {
   }
 };
 
-exports.updateProductsById = async (req, res, next) => {
+export const updateProductsById = async (req, res, next) => {
   try {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) throw Error("Product doesn't exists");
@@ -138,7 +138,7 @@ exports.updateProductsById = async (req, res, next) => {
   }
 };
 
-exports.deleteProductsById = async (req, res, next) => {
+export const deleteProductsById = async (req, res, next) => {
   try {
     const products = await productSchema.findById({ _id: req.params.id });
     if (!products) {

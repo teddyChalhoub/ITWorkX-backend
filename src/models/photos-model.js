@@ -17,4 +17,4 @@ const PhotoModel = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("photo", PhotoModel);
+export default mongoose.model("photo", PhotoModel);

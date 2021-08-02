@@ -1,16 +1,19 @@
 import express from "express";
-import product from "./routes/Product-route";
-import category from "./routes/category-route";
-import photo from "./routes/photos-route";
-import userRoute from "./routes/user-routes";
-import order from "./routes/order-route";
-import orderItem from "./routes/orderItems-route";
-import service from "./routes/service-route";
-import { connectDB } from "./db";
-const path = require("path");
+import product from "./routes/Product-route.js";
+import category from "./routes/category-route.js";
+import photo from "./routes/photos-route.js";
+import userRoute from "./routes/user-routes.js";
+import order from "./routes/order-route.js";
+import orderItem from "./routes/orderItems-route.js";
+import service from "./routes/service-route.js";
+import { connectDB } from "./db.js";
 // import {isAdmin, tokenizer} from "./controllers/user-controller";
-import path from "path";
-import NodeMailer from "./routes/NodeMailer";
+import path, { dirname } from "path";
+import NodeMailer from "./routes/NodeMailer.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 3001;
 
@@ -38,7 +41,7 @@ app.get("*", (req, res) => {
 });
 
 const dbConnection = async () => {
-  await connectDB();
+  await connectDB;
   app.listen(PORT, "0.0.0.0", () => console.log("listening at port " + PORT));
 };
 
